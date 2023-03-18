@@ -1,46 +1,100 @@
-ArrayProducts = [{
-    id:1, 
-    title:'PC',
-    description:'Alta PC',
-    price:500000,
-    thumbnail:'https://hitek.fr/actualite/ordinateur-quantique-cent-millions-fois-plus-rapide_7836',
-    code:'0001',
-    stock:20,
-
-    
+const path = './classProductManager.js'
 
 
-}];
+
+const newArray = []
 
 
 class ProductManager{
-    constructor(){
-        this.products = ArrayProducts
+    constructor(ruta){
+        this.ruta = path
+        this.product = ArrayProducts
     }
-    addProduct(newProduct){
-        
-        const product = this.products.find(prod => prod.code == newProduct.code)
-        if(product){
-            return 'si existe el producto con este codigo'
+    consultarProducto = async () => {
+        try {
+            
+            if(FileSystem.existsSync(path)){
+                const product = await FileSystem.promises.readfile(this.ruta, 'utf-8');
+                return JSON.parse(product)
+
+            } 
+            return []
+            
+        } catch (error) {
+            return []
         }
-
-        this.products.push( {id: this.products.lenght + 1, ...newProduct  } )
-
-
         
-    
+
 
     }
-    getProduct (){
-        return this.products
+    addProduct =async () => {
+       const product = await this.consultarProducto
+       if(product.length==0){
+        usuario.id=1;
+       }else{
+        usuario.id = product [product.lenght-1].id+1;
+
+       }
+       product.push(ArrayProducts);
+       await FileSystem.promises.writeFile(path,JSON.stringify(ArrayProducts,null,'\t')); 
+       return product
+
     }
-    getProductById(id){
-        const product = this.products.find(prod => prod.id === id)
-        if(!product){
-            return 'not found'
+    getProduct = async () => {
+        try {
+            
+            if(FileSystem.existsSync(path)){
+                const product = await FileSystem.promises.readfile(this.ruta, 'utf-8');
+                return JSON.parse(product)
+
+            } 
+            product.push(newArray);
+       
+            
+            
+        } catch (error) {
+            return []
+        }
+        
+
+
+    
+       
+    }
+    getProductById = async (id) =>{
+        const product = await this.consultarProducto 
+        if(this.products.find(prod => prod.id === id)){
+            return {product}
 
         }
         return product
+    }
+    UpdateProduct = async (id) =>{
+        const product = await this.consultarProducto 
+
+        if(this.products.find(prod => prod.id === id)){
+           const Newupdate =  products.UpdateProduct.code;
+           Newupdate.push(ArrayProducts);
+           
+            
+            
+
+        }
+        return product
+        
+    }
+
+    eliminarProducto = async ()=>{
+        const product = await this.consultarProducto 
+
+        if(this.products.find(prod => prod.id === id)){
+            await FileSystem.promise.unlinkfyle(this.ruta,'utf-8')
+           
+            
+            
+
+        }
+
     }
 
 };
