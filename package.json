@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "productManager.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/francoBoero/desafioProductManager/issues"
   },
-  "homepage": "https://github.com/francoBoero/desafioProductManager#readme"
+  "homepage": "https://github.com/francoBoero/desafioProductManager#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
