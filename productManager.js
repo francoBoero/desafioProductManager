@@ -114,7 +114,7 @@ const teclado3 = {
     stock:7,
 }
 
-productos.addProduct(teclado)
+//productos.addProduct(teclado)
 //productos.addProduct(teclado)
 //productos.addProduct(teclado2)
 //productos.addProduct(teclado3)

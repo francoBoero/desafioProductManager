@@ -1,22 +1,27 @@
 
-import express  from 'express';
-import ProductManager  from './ProductManager.js'
-
-app.use(express.json)
+const express = require ("express")
+const ProductManager = require ("./productManager")
+const app = express()
 app.use(express.urlencoded({ extended : true }))
+app.use(express.json)
+
 const PORT = 8080
 
-const http = require ('http') 
-http.createServer((peticion, respuesta)=>{
-    console.log('servidor iniciado en el puerto' + PORT)
+app.listen (8080, () =>{
+    console.log('server abierto en el puerto' + PORT)
+})  
 
-})
+app.get('/productos', (req, res) =>{
+    
+  
+    try {
+        console.log(req.query)
 
-const app = express()
-
-app.get('/productos/query', (req, res) =>{
-    console.log(req.query)
-
-    res.send('query')
+        res.status(200).send(console.log('funciono correctamente'))
+    } catch (error) {
+        console.log(error
+            )
+    }
+   
 
 })
