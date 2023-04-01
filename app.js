@@ -1,27 +1,85 @@
 
+//const  query  = require("express")
 const express = require ("express")
 const ProductManager = require ("./productManager")
 const app = express()
-app.use(express.urlencoded({ extended : true }))
-app.use(express.json)
+
+
 
 const PORT = 8080
+const prod = new ProductManager
 
 app.listen (8080, () =>{
     console.log('server abierto en el puerto' + PORT)
 })  
 
-app.get('/productos', (req, res) =>{
+app.get('/productos', async (req, res) =>{
+        let ProductLimit = req.query.ProductLimit
+        let info = await prod.getProduct()
+        
     
-  
-    try {
-        console.log(req.query)
+    
 
-        res.status(200).send(console.log('funciono correctamente'))
+        try {
+        
+        if(ProductLimit){
+            let  answer =  info.splice(0, ProductLimit);
+            
+            console.log(answer)
+            res.status(200).send(answer)
+
+        }
+        else{
+            console.log(info)
+            res.status(200).send(info)
+
+        }
+
+        
     } catch (error) {
         console.log(error
             )
     }
-   
+
+
+})
+
+
+app.get('/productosByid/:productid', async (req, res) =>{
+        let productid = req.params.productid
+        let infos = await prod.getProduct()
+       
+
+
+        
+
+
+
+    try {
+
+    
+    
+    if(productid){
+        
+    
+        let answer2 =  infos.find(teclado=>teclado.id==productid);
+
+        
+        console.log(answer2)
+        res.send(answer2)
+
+    }
+    else{
+        console.log('Producto no existente')
+        res.send('producto no existente')
+
+
+    }
+
+    
+} catch (error) {
+    console.log(error)
+}
+
 
 })

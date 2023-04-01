@@ -38,7 +38,7 @@ class ProductManager{
     getProduct = async () => {
             const fileExist = await FileSystem.existsSync(path)                                                 //se usa para verificar que la carpeta existe par aprevenir errores, es recomendable que hacer esto en cada metodo
             if(fileExist){
-                const product = await FileSystem.promises.readFile(path, 'utf-8');
+                let product = await FileSystem.promises.readFile(path, 'utf-8');
                 return JSON.parse(product)
             }
             else{
@@ -81,9 +81,8 @@ class ProductManager{
 
 };
 
-module.exports ={
-ProductManager
-};
+module.exports = ProductManager
+
 
 
 const productos = new ProductManager()
