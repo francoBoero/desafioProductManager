@@ -1,5 +1,5 @@
 const FileSystem = require("fs")
-const path = './productos.json'
+const path = './json/products.json'
 
 const newArray = []
 

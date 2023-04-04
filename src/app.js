@@ -1,19 +1,43 @@
 
 //const  query  = require("express")
 const express = require ("express")
-const ProductManager = require ("./productManager")
+//const ProductManager = require ("../productManager")
 const app = express()
-
-
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+const { ProductRouter } = require ('./routes/products.router')
 
 const PORT = 8080
-const prod = new ProductManager
+//const prod = new ProductManager
 
-app.listen (8080, () =>{
+
+app.use('/api/products', ProductRouter)
+app.use('/api/:prodID', ProductRouter)
+
+app.listen (PORT, () =>{
     console.log('server abierto en el puerto' + PORT)
 })  
 
-app.get('/productos', async (req, res) =>{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*app.get('/productos', async (req, res) =>{
         let ProductLimit = req.query.ProductLimit
         let info = await prod.getProduct()
         
@@ -82,4 +106,4 @@ app.get('/productosByid/:productid', async (req, res) =>{
 }
 
 
-})
+})*/
