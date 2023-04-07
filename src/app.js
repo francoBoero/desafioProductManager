@@ -12,7 +12,7 @@ const PORT = 8080
 
 
 app.use('/api/products', ProductRouter)
-app.use('/api/:prodID', ProductRouter)
+
 
 app.listen (PORT, () =>{
     console.log('server abierto en el puerto' + PORT)

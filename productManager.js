@@ -1,5 +1,4 @@
 const FileSystem = require("fs")
-const path = './json/products.json'
 
 const newArray = []
 
@@ -16,7 +15,7 @@ class ProductManager{
     //Utilizar el metodo GetProduct para simplicar codigo en otros metodos.
 
     addProduct =async (productoarecibir) => {
-       let allProducts = await FileSystem.promises.readFile(path, 'utf-8');     //buscamos archivos de la lista de productos en productos.json
+       let allProducts = await FileSystem.promises.readFile(this.ruta, 'utf-8');     //buscamos archivos de la lista de productos en productos.json
        let allProductsParse = JSON.parse(allProducts)                            //Parseamos los productos que vienes en formato.json
        this.product = allProductsParse                                          //rellenamos el constructor product con los objeto.
 
@@ -31,14 +30,15 @@ class ProductManager{
        }
 
        this.product.push(productoarecibir);
-       await FileSystem.promises.writeFile(path,JSON.stringify(this.product,null,'\t')); 
+       await FileSystem.promises.writeFile(this.ruta,JSON.stringify(this.product,null,'\t')); 
        console.log("se añadio el producto correctamente")
     }
 
     getProduct = async () => {
-            const fileExist = await FileSystem.existsSync(path)                                                 //se usa para verificar que la carpeta existe par aprevenir errores, es recomendable que hacer esto en cada metodo
+            const fileExist = await FileSystem.existsSync(this.ruta, 'utf-8') 
             if(fileExist){
-                let product = await FileSystem.promises.readFile(path, 'utf-8');
+                let product = await FileSystem.promises.readFile(this.ruta, 'utf-8');
+                
                 return JSON.parse(product)
             }
             else{
@@ -47,7 +47,7 @@ class ProductManager{
             return []                
     }
     getProductById = async (id) =>{
-        let allProducts =await FileSystem.promises.readFile(path, 'utf-8');
+        let allProducts =await FileSystem.promises.readFile(this.ruta, 'utf-8');
         this.product = JSON.parse(allProducts)
         const findProduct = this.product.find(obj => obj.id == id)
         if(findProduct){
@@ -59,23 +59,23 @@ class ProductManager{
     }
 
     UpdateProduct = async (id,parametrosModificar) =>{
-        let allProducts = await FileSystem.promises.readFile(path, 'utf-8');                      
+        let allProducts = await FileSystem.promises.readFile(this.ruta, 'utf-8');                      
         let allProductsParsed = JSON.parse(allProducts)
 
         let findindex = allProductsParsed.findIndex(prod => prod.id = id)                               // Buscamos la posicion del producto con el id especificado
 
         allProductsParsed[findindex] = parametrosModificar                                              //accedemos a la posicon encontrada en el array de productos y sobreescribimos sus propiedades (buscar una forma de que no pierda su id)
 
-        await FileSystem.promises.writeFile(path, JSON.stringify(allProductsParsed,null,'\t'));         //Sobreescrimos toda la carpeta productos.json con los cambios
+        await FileSystem.promises.writeFile(this.ruta, JSON.stringify(allProductsParsed,null,'\t'));         //Sobreescrimos toda la carpeta productos.json con los cambios
     }
 
     eliminarProducto = async (id)=>{
-        let allProducts = await FileSystem.promises.readFile(path, 'utf-8');
+        let allProducts = await FileSystem.promises.readFile(this.ruta, 'utf-8');
         let allProductsParsed = JSON.parse(allProducts)
 
         let allProductsFilteres = allProductsParsed.filter(prod => prod.id !== id)
 
-        await FileSystem.promises.writeFile(path, JSON.stringify(allProductsFilteres,null,'\t'));
+        await FileSystem.promises.writeFile(this.ruta, JSON.stringify(allProductsFilteres,null,'\t'));
 
     }
 
@@ -85,7 +85,7 @@ module.exports = ProductManager
 
 
 
-const productos = new ProductManager()
+//const productos = new ProductManager("./src/products.json")
 
 const teclado = {
     title:'teclado',
@@ -117,7 +117,7 @@ const teclado3 = {
 //productos.addProduct(teclado)
 //productos.addProduct(teclado2)
 //productos.addProduct(teclado3)
-
+//productos.getProduct()
 let modificaciones ={
     title:"alfajor",
     description: "fdfdaf"

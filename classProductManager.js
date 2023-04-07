@@ -1,4 +1,4 @@
-const {ProductManager} = require("./classProductManager");
+/*const {ProductManager} = require("./classProductManager");
 const producto = new ProductManager
 
 producto.consultarProducto()
@@ -14,6 +14,6 @@ producto.consultarProducto()
     thumbnail:'https://hitek.fr/actualite/ordinateur-quantique-cent-millions-fois-plus-rapide_7836',
     code:'0001',
     stock:20,
- }]
+ }]*/
 
 
