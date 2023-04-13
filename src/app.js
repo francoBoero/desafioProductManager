@@ -6,12 +6,14 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 const { ProductRouter } = require ('./routes/products.router')
+const { Cprods } = require ('./routes/cart.router')
 
 const PORT = 8080
 //const prod = new ProductManager
 
 
 app.use('/api/products', ProductRouter)
+app.use('/api/cart', Cprods)
 
 
 app.listen (PORT, () =>{

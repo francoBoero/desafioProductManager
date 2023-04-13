@@ -277,5 +277,14 @@
 		"code": "0002",
 		"stock": 700,
 		"id": 33
+	},
+	{
+		"title": "teclado",
+		"description": "Alto keyboard",
+		"price": 25000,
+		"thumbnail": "https://es.vecteezy.com/foto/12348201-teclado-muy-sucio-pelo-de-perro-migas-de-pan-y-polvo-acumulado-debajo-de-las-teclas-interruptores-de-teclado-mecanico-sin-botones",
+		"code": "0002",
+		"stock": 70,
+		"id": 34
 	}
 ]

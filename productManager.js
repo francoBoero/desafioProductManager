@@ -9,15 +9,26 @@ class ProductManager{
         this.product = newArray
     }
     //Hacer funciones validadores para validar que no se repita el codigo Y Usarla en addProduct
-    validateCode = async () =>{
-    }
+    /*validateCode = async (code) =>{
+        const findthecode = await this.getProduct()
+       const thefinalcode = findthecode.find(prodcode=>prodcode.code==code)
+        if(thefinalcode==this.product.code){
+            return console.log("este pod ya esxite")
+
+
+
+        }
+        
+
+    }*/
     
     //Utilizar el metodo GetProduct para simplicar codigo en otros metodos.
 
     addProduct =async (productoarecibir) => {
        let allProducts = await FileSystem.promises.readFile(this.ruta, 'utf-8');     //buscamos archivos de la lista de productos en productos.json
        let allProductsParse = JSON.parse(allProducts)                            //Parseamos los productos que vienes en formato.json
-       this.product = allProductsParse                                          //rellenamos el constructor product con los objeto.
+       this.product = allProductsParse
+        //rellenamos el constructor product con los objeto.
 
        if(this.product.length==0){
        productoarecibir.id=1;
@@ -51,7 +62,7 @@ class ProductManager{
         this.product = JSON.parse(allProducts)
         const findProduct = this.product.find(obj => obj.id == id)
         if(findProduct){
-             console.log(findProduct)
+             
              return findProduct
         }else{
             console.error("No se pudo encontrar el producto con el id " + id)
@@ -85,7 +96,7 @@ module.exports = ProductManager
 
 
 
-//const productos = new ProductManager("./src/products.json")
+const productos = new ProductManager("./src/products.json")
 
 const teclado = {
     title:'teclado',
@@ -113,7 +124,7 @@ const teclado3 = {
     stock:7,
 }
 
-//productos.addProduct(teclado)
+productos.addProduct(teclado)
 //productos.addProduct(teclado)
 //productos.addProduct(teclado2)
 //productos.addProduct(teclado3)
