@@ -1,111 +1,85 @@
 
 //const  query  = require("express")
 const express = require ("express")
-//const ProductManager = require ("../productManager")
+const ProductManager = require ("../productManager")
 const app = express()
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+const appprod = new ProductManager ('./products.json')
+
 const { ProductRouter } = require ('./routes/products.router')
 const { Cprods } = require ('./routes/cart.router')
+const {Server} = require ('socket.io')
+const {Viewsrouter} = require ('./routes/views.router')
+const {Rtp} = require ('./routes/realtimeprod')
 
-const PORT = 8080
+//config de handlebars
+const handlebars = require('express-handlebars')
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use("/static", express.static(__dirname+"/public"))
+app.engine('handlebars', handlebars.engine())
+app.set('views', __dirname+'/views')
+app.set('view engine', 'handlebars')
+//config de handlebars
+
+const PORT =  8080
 //const prod = new ProductManager
 
-
+app.use('/realTimeProducts', Rtp)
 app.use('/api/products', ProductRouter)
 app.use('/api/cart', Cprods)
 
+app.use('/view/homehandlebars', Viewsrouter)
 
-app.listen (PORT, () =>{
+
+const httpserver = app.listen (PORT, () =>{
     console.log('server abierto en el puerto' + PORT)
 })  
+let allprds = async()=>{
+    const allprd = await appprod.getProduct()
+    return allprd
+} 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*app.get('/productos', async (req, res) =>{
-        let ProductLimit = req.query.ProductLimit
-        let info = await prod.getProduct()
-        
+let logs = async (dataprd)=>{
+    await appprod.addProduct(dataprd)
+    return "se agrego correctamente"
     
+}
+const socketServer = new Server(httpserver)
+
+
+
+socketServer.on('connection',async socket=>{
+    console.log("nuevo cliente conectado")
+    let prdArray = await appprod.getProduct()
+    socketServer.emit("form", {prdArray})
+
+
+    socket.on("newprd",async dataprd=>{
     
-
-        try {
-        
-        if(ProductLimit){
-            let  answer =  info.splice(0, ProductLimit);
-            
-            console.log(answer)
-            res.status(200).send(answer)
-
-        }
-        else{
-            console.log(info)
-            res.status(200).send(info)
-
-        }
-
-        
-    } catch (error) {
-        console.log(error
-            )
-    }
-
+        logs(dataprd)
+        prdArray = await appprod.getProduct()
+       
+        socketServer.emit("form", {prdArray})
+     })
+     socket.on("delete", async dprd=>{
+        console.log("delete backend") 
+        prdArray = await appprod.getProduct()
+        socketServer.emit("form", {prdArray} )
+     })
 
 })
 
 
-app.get('/productosByid/:productid', async (req, res) =>{
-        let productid = req.params.productid
-        let infos = await prod.getProduct()
-       
 
-
-        
+console.log(__dirname)
 
 
 
-    try {
-
-    
-    
-    if(productid){
-        
-    
-        let answer2 =  infos.find(teclado=>teclado.id==productid);
-
-        
-        console.log(answer2)
-        res.send(answer2)
-
-    }
-    else{
-        console.log('Producto no existente')
-        res.send('producto no existente')
 
 
-    }
-
-    
-} catch (error) {
-    console.log(error)
-}
 
 
-})*/
+
+
+
+

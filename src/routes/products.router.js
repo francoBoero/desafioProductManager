@@ -1,5 +1,5 @@
 const ProductManager = require ("../../productManager.js")
-const productsR = new ProductManager ("./src/products.json")
+const productsR = new ProductManager ("./products.json")
 
 /*const mostrador = async ()=> {
   const mostrame = await productsR.getProduct()
@@ -61,6 +61,7 @@ ProductRouter.get("/:ProdId", async (req, res) => {
 
 
 ProductRouter.post('/', async(req,res)=>{
+  console.log("entre al post")
     let {title, description, price, thumbnail, code, stock, id} = req.body
     productsR.addProduct(req.body)
     
