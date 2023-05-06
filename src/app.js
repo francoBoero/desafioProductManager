@@ -2,14 +2,32 @@
 //const  query  = require("express")
 const express = require ("express")
 const ProductManager = require ("../productManager")
-const app = express()
 const appprod = new ProductManager ('./products.json')
-
+const mongoose = require ("mongoose")
 const { ProductRouter } = require ('./routes/products.router')
 const { Cprods } = require ('./routes/cart.router')
 const {Server} = require ('socket.io')
 const {Viewsrouter} = require ('./routes/views.router')
 const {Rtp} = require ('./routes/realtimeprod')
+
+const {connect} = require("mongoose")
+const urlmongo = "mongodb://localhost:27017/ecommerce"
+
+const DB_OPTIONS = {
+    
+  }
+
+
+  mongoose.connect(urlmongo, {useNewUrlParser:true, useUnifiedTopology:true})
+
+
+
+const app = express()
+
+
+
+
+
 
 //config de handlebars
 const handlebars = require('express-handlebars')
@@ -23,6 +41,7 @@ app.set('view engine', 'handlebars')
 
 const PORT =  8080
 //const prod = new ProductManager
+
 
 app.use('/realTimeProducts', Rtp)
 app.use('/api/products', ProductRouter)
